@@ -1,0 +1,45 @@
+<div class="component-list-container">
+    <h3 class="component-list-header">Components</h3>
+    
+    <div class="component-search">
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-icon matPrefix>search</mat-icon>
+        <input 
+          matInput 
+          placeholder="Search components..." 
+          [formControl]="searchControl"
+          #searchInput>
+      </mat-form-field>
+    </div>
+  
+    <div class="component-items" 
+         cdkDropList 
+         [cdkDropListData]="filteredComponents"
+         (cdkDropListDropped)="onDrop($event)">
+         
+      <div class="component-item" 
+           *ngFor="let component of filteredComponents; trackBy: trackByFn" 
+           cdkDrag
+           [cdkDragData]="component"
+           (click)="addComponent(component.type)">
+           
+        <div class="component-icon">
+          <mat-icon>{{component.icon}}</mat-icon>
+        </div>
+        <div class="component-details">
+          <h4>{{component.name}}</h4>
+          <p>{{component.description}}</p>
+        </div>
+        <div class="component-actions">
+          <button mat-icon-button>
+            <mat-icon>drag_indicator</mat-icon>
+          </button>
+        </div>
+      </div>
+  
+      <div class="no-results" *ngIf="filteredComponents.length === 0">
+        <mat-icon>search_off</mat-icon>
+        <p>No components found matching "{{searchControl.value}}"</p>
+      </div>
+    </div>
+  </div>
