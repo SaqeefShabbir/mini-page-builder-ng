@@ -1,0 +1,28 @@
+<div class="page-builder-container">
+    <app-toolbar 
+    [previewMode]="previewMode" 
+    [previewDisabled]="previewDisabled"
+    (togglePreview)="onToolbarTogglePreview($event)"
+    (save)="savePage()"
+    (export)="exportPage()"
+    (undo)="undo()"
+    (redo)="redo()">
+  </app-toolbar>
+  
+    <div class="builder-content">
+      <app-component-list *ngIf="!previewMode"></app-component-list>
+  
+      <app-builder-canvas 
+        [page]="currentPage" 
+        [previewMode]="previewMode"
+        (componentSelect)="onComponentSelect($event)"
+        (componentDelete)="onComponentDelete($event)">
+      </app-builder-canvas>
+  
+        <app-properties-panel 
+            [component]="selectedComponent"
+            (styleChange)="updateStyles($event)"
+            (contentChange)="updateContent($event)">
+        </app-properties-panel>
+    </div>
+  </div>
