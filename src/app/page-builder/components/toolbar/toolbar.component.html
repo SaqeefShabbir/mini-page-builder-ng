@@ -1,0 +1,46 @@
+<div class="toolbar">
+    <div class="toolbar-left">
+      <button mat-icon-button 
+        (click)="onTogglePreview()" 
+        [matTooltip]="previewMode ? 'Exit Preview' : 'Preview'"
+        [color]="previewMode ? 'accent' : 'primary'"
+        [disabled]="previewDisabled"
+        class="preview-button"
+        #previewButton>
+        <mat-icon>{{ previewMode ? 'edit' : 'visibility' }}</mat-icon>
+      </button>
+      
+      <button mat-icon-button (click)="onUndo($event)" [disabled]="!canUndo" matTooltip="Undo" #undoBtn>
+        <mat-icon class="undo-icon">undo</mat-icon>
+      </button>
+      
+      <button mat-icon-button (click)="onRedo($event)" [disabled]="!canRedo" matTooltip="Redo" #redoBtn>
+        <mat-icon class="redo-icon">redo</mat-icon>
+      </button>
+    </div>
+    
+    <div class="toolbar-center">
+      <h2>Page Builder</h2>
+    </div>
+    
+    <div class="toolbar-right">
+      <button mat-stroked-button (click)="onSave()" matTooltip="Save Page">
+        <mat-icon>save</mat-icon>
+        <span>Save</span>
+      </button>
+      
+      <!-- <button mat-raised-button color="primary" (click)="onExport()" matTooltip="Export Page">
+        <mat-icon>download</mat-icon>
+        <span>Export</span>
+      </button> -->
+
+      <button mat-raised-button color="primary" (click)="onExport('json')">
+        <mat-icon>code</mat-icon>
+        <span>Export as JSON</span>
+      </button>
+      <button mat-raised-button color="primary" (click)="onExport('html')">
+        <mat-icon>html</mat-icon>
+        <span>Export as HTML</span>
+      </button>
+    </div>
+  </div>
