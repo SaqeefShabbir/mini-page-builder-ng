@@ -1,0 +1,72 @@
+<div class="properties-panel" *ngIf="component">
+  <div class="panel-header">
+    <h3>Properties</h3>
+    <div class="tabs">
+      <button (click)="activeTab = 'content'" [class.active]="activeTab === 'content'">Content</button>
+      <button (click)="activeTab = 'styles'" [class.active]="activeTab === 'styles'">Styles</button>
+    </div>
+  </div>
+
+  <div class="panel-content">
+    <!-- Content Tab -->
+    <div *ngIf="activeTab === 'content'" class="tab-content">
+      <mat-form-field appearance="outline">
+        <mat-label>Content</mat-label>
+        <textarea matInput 
+                [(ngModel)]="component.content"
+                (ngModelChange)="contentChange.emit($event)"
+                rows="3"></textarea>
+      </mat-form-field>
+    </div>
+
+    <!-- Styles Tab -->
+    <div *ngIf="activeTab === 'styles'" class="tab-content">
+      <div *ngFor="let control of styleControls" class="style-control">
+        <div class="control-header">
+          <label>{{control.label}}</label>
+        </div>
+        
+        <div [ngSwitch]="control.type" class="control-input">
+          <!-- Color Picker -->
+          <input *ngSwitchCase="'color'" 
+                type="color"
+                [formControl]="getFormControl(control.property)">
+
+          <!-- Text Input -->
+          <mat-form-field *ngSwitchCase="'text'" appearance="outline">
+            <input matInput 
+                type="text"
+                [formControl]="getFormControl(control.property)">
+          </mat-form-field>
+
+          <!-- Range Slider -->
+          <div *ngSwitchCase="'range'" class="range-container">
+            <mat-slider
+              [min]="control.min"
+              [max]="control.max"
+              [step]="control.step"
+              [discrete]="true"
+              [displayWith]="formatLabel"
+              [formControl]="getFormControl(control.property)">
+              <input matSliderThumb [formControl]="getFormControl(control.property)">
+            </mat-slider>
+            <span class="value-display">
+              {{ getFormControl(control.property).value }}{{ control.suffix }}
+            </span>
+          </div>
+
+          <!-- Number Input -->
+          <mat-form-field *ngSwitchCase="'number'" appearance="outline">
+            <input matInput 
+                  type="number"
+                  [min]="control.min"
+                  [max]="control.max"
+                  [step]="control.step"
+                  [formControl]="getFormControl(control.property)">
+            <span matSuffix>{{control.suffix}}</span>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
