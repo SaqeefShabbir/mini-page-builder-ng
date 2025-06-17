@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Export Page</h2>
+<mat-dialog-content>
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Export Format</mat-label>
+    <mat-select [(value)]="selectedFormat">
+      <mat-option *ngFor="let option of exportOptions" [value]="option.id">
+        <mat-icon>{{option.icon}}</mat-icon>
+        {{option.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" (click)="onExport()">Export</button>
+</mat-dialog-actions>
