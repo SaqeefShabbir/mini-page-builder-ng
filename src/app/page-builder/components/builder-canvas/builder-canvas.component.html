@@ -1,0 +1,81 @@
+<div class="canvas-container" (click)="onCanvasClick()">
+  <div 
+    class="canvas-content"
+    [ngClass]="{ 'preview-mode': previewMode }"
+    cdkDropList
+    [cdkDropListData]="page.components"
+    (cdkDropListDropped)="onDrop($event)">
+    
+    <ng-container *ngIf="!previewMode && page.components.length === 0">
+      <div class="empty-state">
+        <mat-icon>design_services</mat-icon>
+        <h3>Your canvas is empty</h3>
+        <p>Drag components here or click items in the components list</p>
+      </div>
+    </ng-container>
+
+    <div 
+      *ngFor="let component of page.components; trackBy: trackByFn"
+      class="component-wrapper"
+      [ngClass]="{ 'selected': selectedComponent?.id === component.id }"
+      (click)="onComponentClick(component, $event)"
+      cdkDrag
+      [cdkDragData]="component">
+      
+      <div class="component-content" [ngStyle]="getComponentStyles(component.styles)">
+        <ng-container [ngSwitch]="component.type">
+          <!-- Text Component -->
+          <div *ngSwitchCase="'text'" class="text-component" [ngStyle]="component.styles">
+            {{ component.content }}
+          </div>
+
+          <!-- Image Component -->
+          <div *ngSwitchCase="'image'" class="image-component">
+            <img [src]="component.content" [alt]="'Image ' + component.id" [ngStyle]="component.styles">
+          </div>
+
+          <!-- Button Component -->
+          <div *ngSwitchCase="'button'" class="button-component">
+            <button [ngStyle]="component.styles">
+              {{ component.content }}
+            </button>
+          </div>
+
+          <!-- Video Component -->
+          <div *ngSwitchCase="'video'" class="video-component">
+            <video 
+                [src]="component.content"
+                autoplay
+                loop
+                muted
+                controls
+                [ngStyle]="component.styles"
+            >
+                Your browser does not support the video tag.
+            </video>
+          </div>
+
+          <!-- Divider Component -->
+          <div *ngSwitchCase="'divider'" class="divider-component" [ngStyle]="component.styles"></div>
+
+          <!-- Section Component -->
+          <div *ngSwitchCase="'section'" class="section-component">
+            <Section [ngStyle]="component.styles">
+            </Section>
+          </div>
+
+          <!-- Default (Unsupported) -->
+          <div *ngSwitchDefault class="unsupported-component">
+            Unsupported component: {{ component.type }}
+          </div>
+        </ng-container>
+      </div>
+
+      <div *ngIf="!previewMode && selectedComponent?.id === component.id" class="component-toolbar">
+        <button mat-icon-button (click)="onDeleteComponent(component, $event)" class="delete-btn">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
