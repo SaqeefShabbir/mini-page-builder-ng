@@ -1,0 +1,17 @@
+button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  
+  &.active {
+    color: #3f51b5;
+    background-color: rgba(63, 81, 181, 0.1);
+  }
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}

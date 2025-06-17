@@ -1,0 +1,4 @@
+<button mat-button (click)="onToggle()" [class.active]="previewMode">
+  <mat-icon>{{ previewMode ? 'edit' : 'visibility' }}</mat-icon>
+  {{ previewMode ? 'Edit Mode' : 'Preview Mode' }}
+</button>
